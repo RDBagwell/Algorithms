@@ -2,6 +2,7 @@ const numArray = [-4,-3,-2,-1,0,1,2,5];
 
 const uniqueValues = [-4,-3,-2,-1,0,1,1,5];
 
+
 function sumZero(numArray) {
     let start = 0
     let end = numArray.length -1
@@ -44,4 +45,39 @@ function countUniqueValuesB(arr){
     }
     return i + 1;
 }
-console.log(countUniqueValuesB(uniqueValues));
+
+
+/*** practice challenge ****/
+
+// check if duplicates in given argument
+function areThereDuplicates(...arg) {
+    let start = 0;
+    let next = 1;
+    arg.sort()
+    while (next < arg.length) {
+        if(arg[start] === arg[next]){
+            return true
+        }
+        start++
+        next++
+    }
+    return false
+}
+
+function isSubsequence(str1, str2) {
+    let i = 0;
+    let j = 0;
+    while (j < str2.length) {
+        if(str2[j] === str1[i]){
+            i++;
+        }
+        if(i === str1.length){
+            return true;
+        }
+        j++
+    }
+    return false
+
+}
+
+console.log(isSubsequence('', 'helloworld'))
