@@ -1,4 +1,4 @@
-const arr = [4,8,2,1,5,7,6,3];
+const arr = [100,-3,2,4,6,9,1,2,5,3,23];
 
 function pivot(arr, start = 0, end = arr.length +1) {
   function swap(array, i, j) {
@@ -18,4 +18,15 @@ function pivot(arr, start = 0, end = arr.length +1) {
   return swapIndex;
 }
 
-console.log(pivot(arr));
+function quickSort(arr, left = 0, right = arr.length -1) {
+  let pivotIndex = pivot(arr, left, right);
+  if(left < right){
+    // Left
+    quickSort(arr,left,pivotIndex -1);
+    // Right
+    quickSort(arr, pivotIndex + 1, right);
+  }
+  return arr;
+}
+
+console.log(quickSort(arr));
