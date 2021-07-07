@@ -1,4 +1,5 @@
 const nums1 = [3,4,5], nums2 = [1,2], testArray = [9, 10, 12, 13, 13, 13, 15, 15, 16, 16, 18, 22, 23, 24, 24, 25];
+const matrix = [[1,5,9],[10,11,13],[12,13,15]];
 
 // Created My own Merge Sort Algorithm 97% in LeetCode
 function findMedianSortedArrays(nums1, nums2) {
@@ -109,3 +110,26 @@ function findIQR(nums) {
         return q1 - q2;
     }
 }
+
+function kthSmallest(matrix, k) {
+    let concatArry = [];
+    matrix.forEach(res=>{
+        concatArry = concatArry.concat(res);
+    });
+    concatArry.sort((a,b)=>a-b);
+    return concatArry[k-1];
+}
+
+function canJump(arr) {
+    let maxJumps = 0;
+    for (let i = 0; i < arr.length; i++) {
+        if(i > maxJumps) return false;
+        if( i + arr[i] >= arr.length - 1) return true
+        maxJumps = Math.max(maxJumps, i + arr[i]);
+    }
+    return false
+}
+
+const test = [2,3,1,1,4]
+
+console.log(test.pop())
