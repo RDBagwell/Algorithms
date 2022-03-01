@@ -1,11 +1,20 @@
+async function fetchCustomerJSON(){
+    const filePath = './lsp2_stage_customer_entity.json';
+    const res = await fetch(filePath);
+    return await res.json();
+}
+
+async function fetchCustomerAddressJSON(){
+    const filePath = './lsp2_stage_customer_address_entity.json';
+    const res = await fetch(filePath);
+    return await res.json();
+}
+
 async function getCustomersWithAddress(i = 0, finalArray = []){
-    const filePath1 = './lsp2_stage_customer_entity.json';
-    const res1 = await fetch(filePath1);
-    const customer = await res1.json();
-    const filePath2 = './lsp2_stage_customer_address_entity.json';
-    const res2 = await fetch(filePath2);
-    const address = await res2.json();
+    const customer = await fetchCustomerJSON();
+    const address = await fetchCustomerAddressJSON();
     if(i === customer.length){return finalArray}
+
     if(!finalArray.includes(customer[i].entity_id)){
         for (let j = 0; j < address.length; j++) {
             if(customer[i].entity_id === address[j].parent_id){
@@ -29,9 +38,7 @@ async function getCustomersWithAddress(i = 0, finalArray = []){
 
 async function getAllCustomers(i = 0 , finalArray = []){
    const customersWithAddress = await getCustomersWithAddress();
-   const filePath1 = './lsp2_stage_customer_entity.json';
-   const res1 = await fetch(filePath1);
-   const customer = await res1.json();
+   const customer = await fetchCustomerJSON();
    if(i === customer.length){return finalArray}
 
    if(customer[i].entity_id in customersWithAddress){
@@ -42,8 +49,6 @@ async function getAllCustomers(i = 0 , finalArray = []){
    return getAllCustomers(i + 1, finalArray);
 }
 
-async function renderAllCustomers() {
+(async ()=>{
     console.log(await getAllCustomers())
-};
-
-renderAllCustomers()
+})();
