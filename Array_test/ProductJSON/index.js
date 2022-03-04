@@ -35,4 +35,3 @@ async function getProductData(i=0, productData = []) {
 (async ()=>{
     console.log(await getProductData())
 })();
-
