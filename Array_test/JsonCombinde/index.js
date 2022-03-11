@@ -10,30 +10,29 @@ async function fetchCustomerAddressJSON(){
     return await res.json();
 }
 
-async function getCustomersWithAddress(i = 0, finalArray = []){
-    const customer = await fetchCustomerJSON();
+async function getCustomersWithAddress(){
+    const customers = await fetchCustomerJSON();
     const address = await fetchCustomerAddressJSON();
-    if(i === customer.length){return finalArray}
-
-    if(!finalArray.includes(customer[i].entity_id)){
-        for (let j = 0; j < address.length; j++) {
-            if(customer[i].entity_id === address[j].parent_id){
-                customer[i].address = {
-                    "city": address[j].city || '',
-                    "company": address[j].company || '',
-                    "country_id": address[j].country_id || '',
-                    "fax": address[j].fax || '',
-                    "postcode": address[j].postcode || '',
-                    "prefix": address[j].prefix || '',
-                    "region": address[j].region || '',
-                    "street": address[j].street || '',
-                    "telephone": address[j].telephone || '',
-                };
-                finalArray[customer[i].entity_id] = customer[i]
-            }
+    const finalArray = [];
+    customers.map((customer)=>{
+       for (let i = 0; i < address.length; i++) {
+           if(customer.entity_id === address[i].parent_id ){
+            customer.address = {
+                "city": address[i].city || '',
+                "company": address[i].company || '',
+                "country_id": address[i].country_id || '',
+                "fax": address[i].fax || '',
+                "postcode": address[i].postcode || '',
+                "prefix": address[i].prefix || '',
+                "region": address[i].region || '',
+                "street": address[i].street || '',
+                "telephone": address[i].telephone || '',
+            };
+            finalArray[customer.entity_id] = customer
+           }
         }
-    }
-    return getCustomersWithAddress(i + 1, finalArray);  
+    })
+    return finalArray;  
 }
 
 async function getAllCustomers(i = 0 , finalArray = []){
