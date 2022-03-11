@@ -8,30 +8,33 @@ async function fetchProductFlat() {
     return await productObj.json();
 }
 
-async function getProductData(i=0, productData = []) {
+async function getProductData() {
     const productEntity = await fetchProductEntity();
     const productFlat = await fetchProductFlat();
-    if(i == productFlat.length){ return }
-    for (let j = 0; j < productFlat.length; j++) {
-        if(productEntity[i].sku === productFlat[j].sku){
-            productData.push({
-                id: productEntity[i].entity_id,
-                name: productFlat[j].name,
-                type: productFlat[j].type_id,
-                sku: productFlat[j].sku,
-                description: productFlat[j].description,
-                weight: productFlat[j].weight,
-                price: productFlat[j].price,
-                cost_price: productFlat[j].cost,
-                retail_price: productFlat[j].retail_price,
-                tax_class_id: productFlat[j].tax_class_id,
-            })
+    const productData = [];
+    productEntity.map(products=>{
+        for (let i = 0; i < productFlat.length; i++) {
+            if(
+                products.sku === productFlat[i].sku){
+                productData.push({
+                    id: products.entity_id,
+                    name: productFlat[i].name,
+                    type: productFlat[i].type_id,
+                    sku: productFlat[i].sku,
+                    description: productFlat[i].description,
+                    weight: productFlat[i].weight,
+                    price: productFlat[i].price,
+                    cost_price: productFlat[i].cost,
+                    retail_price: productFlat[i].retail_price,
+                    tax_class_id: productFlat[i].tax_class_id,
+                })
+            }
         }
-    }
-    i++;
-    getProductData(i, productData)
+    })
+
     return productData;
 }
+
 (async ()=>{
     console.log(await getProductData())
 })();
